@@ -558,6 +558,11 @@ unsigned long riscv_get_elf_hwcap(void)
 
 void check_unaligned_access(int cpu)
 {
+	/* Current AGI firmware doesn't emulate unaligned accesses,
+	nor does our hardware support it */
+	per_cpu(misaligned_access_speed, cpu) = RISCV_HWPROBE_MISALIGNED_UNSUPPORTED;
+	return;
+
 	u64 start_cycles, end_cycles;
 	u64 word_cycles;
 	u64 byte_cycles;
